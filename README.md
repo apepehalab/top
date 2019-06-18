@@ -5,6 +5,7 @@ Apepeha Lab. is a group of beginner game developers from Saint Petersburg, Russi
 - Avicus Delacroix — *Chief Executing Officer, Loremaster*
 - Efim Mikhailenko — *Chief programmer*
 - Pavel Metelkin — *Chief modeller*
+- Nikita Ponomarev — *Programmer*
 ## Our projects:
 - Tales of Pangaea — *Our main project, designed to be an online RPG with an exciting story*
 - Panamario — *Our main testing project, named for one of our developers Panamar*
