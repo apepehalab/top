@@ -5,23 +5,24 @@ using UnityEngine;
 public class alMouseCam : MonoBehaviour
 {
     public Camera cam; // камера
-    public Transform transform;
-   // private Vector3 offset; // смещение камеры относительно объекта
+    public Transform target;
     private Vector3 camRotation;
     private Vector3 lastPos;
-    public float camDistance = 10f; //отдаление камеры
+    //public float camDistance = 10f; //отдаление камеры
     private Vector2 prevMousePos;
     public float camSpeed = 1f;
-    private float roundSpeed = 4.6f;
+    public float roundSpeed = 100f;
+    public float camShiftSpeed = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
+        target = GetComponent<Transform>();
         prevMousePos.x = Input.mousePosition.x;
         prevMousePos.y = Input.mousePosition.y;
-        camRotation = new Vector3(0, transform.rotation.y, 0);
+        camRotation = new Vector3(0, target.rotation.y, 0);
         cam.transform.Rotate(new Vector3(0, 0, 0), Space.World);
-        lastPos = transform.position;
+        lastPos = target.position;
 
     }
 
@@ -32,17 +33,30 @@ public class alMouseCam : MonoBehaviour
         mousePos.x = Input.mousePosition.x;
         mousePos.y = Input.mousePosition.y;
 
-        cam.transform.LookAt(transform);
-        if (Input.GetMouseButton(0))
+        Vector3 offset = new Vector3(
+            target.position.x - lastPos.x + Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * Input.mouseScrollDelta.y * camShiftSpeed,
+            target.position.y - lastPos.y - Mathf.Tan(cam.transform.eulerAngles.x * Mathf.PI / 180) * Input.mouseScrollDelta.y * camShiftSpeed,
+            target.position.z - lastPos.z + Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * Input.mouseScrollDelta.y * camShiftSpeed);
+
+        cam.transform.position += offset;
+        lastPos = target.position;
+
+        cam.transform.LookAt(target);
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
         { 
             if (mousePos.x - prevMousePos.x != 0)
             {
-                cam.transform.RotateAround(transform.position, new Vector3(0, 1, 0), camSpeed * (mousePos.x - prevMousePos.x) * Time.deltaTime);
+                cam.transform.RotateAround(target.position, new Vector3(0, 1, 0), camSpeed * (mousePos.x - prevMousePos.x) * Time.deltaTime);
             }
 
             if (mousePos.y - prevMousePos.y != 0)
             {
-                cam.transform.RotateAround(transform.position, new Vector3(-Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180), 0, Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180)), camSpeed * (mousePos.y - prevMousePos.y) * Time.deltaTime);
+                cam.transform.RotateAround(
+                    target.position, new Vector3(
+                        -Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180),
+                        0,
+                        Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180)),
+                        camSpeed * (mousePos.y - prevMousePos.y) * Time.deltaTime);
             }
 
         }
@@ -50,15 +64,15 @@ public class alMouseCam : MonoBehaviour
 
         if (Input.GetKey("e"))
         {
-            cam.transform.RotateAround(transform.position, new Vector3(0, 1, 0), camSpeed * roundSpeed * Time.deltaTime);
+            cam.transform.RotateAround(target.position, new Vector3(0, 1, 0), roundSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey("q"))
         {
-            cam.transform.RotateAround(transform.position, new Vector3(0, -1, 0), camSpeed * roundSpeed * Time.deltaTime);
+            cam.transform.RotateAround(target.position, new Vector3(0, -1, 0), roundSpeed * Time.deltaTime);
         }
 
-        float dist = Vector3.Distance(cam.transform.position, transform.position);
+       // float dist = Vector3.Distance(cam.transform.position, target.position);
 
         //if (dist != camDistance || dist != camDistance)
         //{
@@ -67,8 +81,7 @@ public class alMouseCam : MonoBehaviour
         //    //offset.z += transform.position.z - cam.transform.position.z + camDistance;
         //    cam.transform.position += offset;
         //}
-        cam.transform.position += transform.position - lastPos;
-        lastPos = transform.position;
+        
 
 
         //cam.transform.Translate();
