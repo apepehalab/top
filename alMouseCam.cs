@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*  2019 Apepeha Lab.
+ *  Camera controls script
+ *  by Efim Mikhailenko
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +28,6 @@ public class alMouseCam : MonoBehaviour
         camRotation = new Vector3(0, target.rotation.y, 0);
         cam.transform.Rotate(new Vector3(0, 0, 0), Space.World);
         lastPos = target.position;
-
     }
 
     // Update is called once per frame
@@ -58,9 +62,7 @@ public class alMouseCam : MonoBehaviour
                         Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180)),
                         camSpeed * (mousePos.y - prevMousePos.y) * Time.deltaTime);
             }
-
         }
-
 
         if (Input.GetKey("e"))
         {
@@ -72,7 +74,7 @@ public class alMouseCam : MonoBehaviour
             cam.transform.RotateAround(target.position, new Vector3(0, -1, 0), roundSpeed * Time.deltaTime);
         }
 
-       // float dist = Vector3.Distance(cam.transform.position, target.position);
+        // float dist = Vector3.Distance(cam.transform.position, target.position);
 
         //if (dist != camDistance || dist != camDistance)
         //{
@@ -81,16 +83,14 @@ public class alMouseCam : MonoBehaviour
         //    //offset.z += transform.position.z - cam.transform.position.z + camDistance;
         //    cam.transform.position += offset;
         //}
-        
-
 
         //cam.transform.Translate();
 
         //offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
         //offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
-       // offset.y = camDistance; // отдаление камеры
+        // offset.y = camDistance; // отдаление камеры
 
-       // cam.transform.position = transform.position + offset; //подтаскивание камеры к нужным координатам
+        // cam.transform.position = transform.position + offset; //подтаскивание камеры к нужным координатам
 
         prevMousePos.x = mousePos.x;
         prevMousePos.y = mousePos.y;

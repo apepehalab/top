@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*  2019 Apepeha Lab.
+ *  Game Menu script
+ *  by Nikita Ponomarev
+ */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

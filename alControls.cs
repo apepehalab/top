@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*  2019 Apepeha Lab.
+ *  Character controls script
+ *  by Efim Mikhailenko
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -24,7 +29,6 @@ public class alControls : MonoBehaviour
 
     }
 
-    
     void OnCollisionExit(Collision hit)
     {
         if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Floor")
@@ -38,7 +42,6 @@ public class alControls : MonoBehaviour
     void Start()
     {
         rig = GetComponent<Rigidbody>();
-        
         rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
@@ -79,8 +82,6 @@ public class alControls : MonoBehaviour
         if (Input.GetKey("q")) // если нажата кнопка q
         {
             rig.MoveRotation(rig.rotation * angvelL); //повернуть rigidbody против часовой
-
-
         }
         if (Input.GetKey("e")) // если нажата кнопка e
         {
