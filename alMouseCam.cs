@@ -18,6 +18,9 @@ public class alMouseCam : MonoBehaviour
     public float camSpeed = 1f;
     public float roundSpeed = 100f;
     public float camShiftSpeed = 1f;
+    public float centerOffsetY = 0f;
+    public float maxCamDistance = 50f;
+    private Vector3 centerOffset;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +30,8 @@ public class alMouseCam : MonoBehaviour
         prevMousePos.y = Input.mousePosition.y;
         camRotation = new Vector3(0, target.rotation.y, 0);
         cam.transform.Rotate(new Vector3(0, 0, 0), Space.World);
-        lastPos = target.position;
+        lastPos = target.position + centerOffset;
+        centerOffset = new Vector3(0, centerOffsetY, 0);
     }
 
     // Update is called once per frame
@@ -37,41 +41,53 @@ public class alMouseCam : MonoBehaviour
         mousePos.x = Input.mousePosition.x;
         mousePos.y = Input.mousePosition.y;
 
+        Vector3 pos = target.position + centerOffset;
+
+        //////////////////////////////////////////////////////////rotating cam
+        float dist = Vector3.Distance(cam.transform.position, pos);
+        float deltaCam;
+
+        if(dist > maxCamDistance)
+            deltaCam = 1;
+        else
+            deltaCam = Input.mouseScrollDelta.y * camShiftSpeed * Mathf.Cos(cam.transform.eulerAngles.x * Mathf.PI / 180);
+
         Vector3 offset = new Vector3(
-            target.position.x - lastPos.x + Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * Input.mouseScrollDelta.y * camShiftSpeed,
-            target.position.y - lastPos.y - Mathf.Tan(cam.transform.eulerAngles.x * Mathf.PI / 180) * Input.mouseScrollDelta.y * camShiftSpeed,
-            target.position.z - lastPos.z + Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * Input.mouseScrollDelta.y * camShiftSpeed);
+            pos.x - lastPos.x + Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * deltaCam,
+            pos.y - lastPos.y - Mathf.Tan(cam.transform.eulerAngles.x * Mathf.PI / 180) * deltaCam,
+            pos.z - lastPos.z + Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * deltaCam);
 
         cam.transform.position += offset;
-        lastPos = target.position;
 
-        cam.transform.LookAt(target);
+        lastPos = pos;
+
+        cam.transform.LookAt(pos);
         if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
         { 
             if (mousePos.x - prevMousePos.x != 0)
             {
-                cam.transform.RotateAround(target.position, new Vector3(0, 1, 0), camSpeed * (mousePos.x - prevMousePos.x) * Time.deltaTime);
+                cam.transform.RotateAround(pos, new Vector3(0, 1, 0), camSpeed * (mousePos.x - prevMousePos.x) * Time.deltaTime);
             }
 
             if (mousePos.y - prevMousePos.y != 0)
             {
                 cam.transform.RotateAround(
-                    target.position, new Vector3(
+                    pos, new Vector3(
                         -Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180),
                         0,
                         Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180)),
                         camSpeed * (mousePos.y - prevMousePos.y) * Time.deltaTime);
             }
         }
-
+        //////////////////////////////////////////////////////////
         if (Input.GetKey("e"))
         {
-            cam.transform.RotateAround(target.position, new Vector3(0, 1, 0), roundSpeed * Time.deltaTime);
+            cam.transform.RotateAround(pos, new Vector3(0, 1, 0), roundSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey("q"))
         {
-            cam.transform.RotateAround(target.position, new Vector3(0, -1, 0), roundSpeed * Time.deltaTime);
+            cam.transform.RotateAround(pos, new Vector3(0, -1, 0), roundSpeed * Time.deltaTime);
         }
 
         // float dist = Vector3.Distance(cam.transform.position, target.position);
