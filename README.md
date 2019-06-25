@@ -3,7 +3,7 @@ Apepeha Game Lab. is a group of beginner independent game developers from Saint 
 
 ## Links / Ссылки:
 - [Current tasks / Текущие задачи](https://github.com/orgs/apepehalab/projects/1)
-- [Bugtracker / Заведение багов](https://github.com/apepehalab/unity-game-scripting/issues)
+- [Bugtracker / Заведение багов](https://github.com/apepehalab/top/issues)
 ## Currently our working team is:
 - Avicus Delacroix — *Chief Executing Officer, Loremaster*
 - Efim Mikhailenko — *Chief programmer*
