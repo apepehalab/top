@@ -91,6 +91,9 @@ public class alMouseCam : MonoBehaviour
             cam.transform.RotateAround(pos, new Vector3(0, -1, 0), roundSpeed * Time.deltaTime);
         }
 
+        prevMousePos.x = mousePos.x;
+        prevMousePos.y = mousePos.y;
+
        /*   ===== Old script =====
         *   float dist = Vector3.Distance(cam.transform.position, target.position);
         *   if (dist != camDistance || dist != camDistance)
@@ -106,8 +109,5 @@ public class alMouseCam : MonoBehaviour
         *   offset.y = camDistance; // отдаление камеры
         *   cam.transform.position = transform.position + offset; //подтаскивание камеры к нужным координатам
         */
-
-        prevMousePos.x = mousePos.x;
-        prevMousePos.y = mousePos.y;
     }
 }
