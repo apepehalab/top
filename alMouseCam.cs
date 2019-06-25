@@ -15,10 +15,15 @@ public class alMouseCam : MonoBehaviour
     private Vector3 lastPos;
     //public float camDistance = 10f; //отдаление камеры
     private Vector2 prevMousePos;
+    [Header("Camera Mouse Rotation Speed")]
     public float camSpeed = 1f;
+    [Header("Camera QE Rotation Speed")]
     public float roundSpeed = 100f;
+    [Header("Camera Zoom Speed")]
     public float camShiftSpeed = 1f;
+    [Header("Camera Elevation")]
     public float centerOffsetY = 0f;
+    [Header("Camera Zoom Out Limit")]
     public float maxCamDistance = 50f;
     private Vector3 centerOffset;
 
@@ -48,7 +53,7 @@ public class alMouseCam : MonoBehaviour
         float deltaCam;
 
         if(dist > maxCamDistance)
-            deltaCam = 1;
+            deltaCam = Mathf.Cos(cam.transform.eulerAngles.x * Mathf.PI / 180);
         else
             deltaCam = Input.mouseScrollDelta.y * camShiftSpeed * Mathf.Cos(cam.transform.eulerAngles.x * Mathf.PI / 180);
 
