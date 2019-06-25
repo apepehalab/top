@@ -17,7 +17,7 @@ public class alMenu : MonoBehaviour
 {
 	GameObject Menu, Return, Save, Load, Exit_main_menu, Exit;
 	bool Menu_Status = false;
-	
+
 	public void OpenMenu()
 	{
 		Menu_Status = true;
@@ -28,7 +28,7 @@ public class alMenu : MonoBehaviour
 		Exit_main_menu.SetActive(true);
 		Exit.SetActive(true);
 	}
-	
+
 	public void CloseMenu()
 	{
 		Menu_Status = false;
@@ -39,9 +39,9 @@ public class alMenu : MonoBehaviour
 		Exit_main_menu.SetActive(false);
 		Exit.SetActive(false);
 	}
-	
-    void Start()
-    {
+
+	void Start()
+	{
 		if(SceneManager.GetActiveScene().buildIndex == 1)
 		{
 			Menu = GameObject.Find ("Menu");
@@ -53,10 +53,10 @@ public class alMenu : MonoBehaviour
 
 			CloseMenu();
 		}
-    }
+	}
 
-    void Update()
-    {
+	void Update()
+	{
 		if(SceneManager.GetActiveScene().buildIndex == 1)
 		{
 			if(Input.GetKeyDown(KeyCode.Escape))
@@ -73,15 +73,15 @@ public class alMenu : MonoBehaviour
 				CloseMenu();
 			}
 		}
-    }
-	
+	}
+
 	public void Quit()
-    {
+	{
 		Application.Quit();
-    }
-	
+	}
+
 	public void LoadScene(int Scene)
-    {
-        SceneManager.LoadScene(Scene);
-    }
+	{
+		SceneManager.LoadScene(Scene);
+	}
 }
