@@ -9,3 +9,6 @@ Apepeha Lab. is a group of beginner game developers from Saint Petersburg, Russi
 ## Our projects:
 - Tales of Pangaea — *Our main project, designed to be an online RPG with an exciting story*
 - Panamario — *Our main testing project, named for one of our developers Panamar*
+## Our links / Ссылки:
+- [Current tasks / Текущие задачи](https://github.com/orgs/apepeha-lab/projects/1)
+- [Bugtracker / Заведение багов](https://github.com/apepeha-lab/unity-game-scripting/issues)
