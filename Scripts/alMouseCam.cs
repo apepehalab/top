@@ -9,11 +9,10 @@ using UnityEngine;
 
 public class alMouseCam : MonoBehaviour
 {
-    public Camera cam; // камера
+    public Camera cam;
     public Transform target;
     private Vector3 camRotation;
     private Vector3 lastPos;
-    //public float camDistance = 10f; //отдаление камеры
     private Vector2 prevMousePos;
     [Header("Camera Mouse Rotation Speed")]
     public float camSpeed = 1f;
@@ -21,13 +20,12 @@ public class alMouseCam : MonoBehaviour
     public float roundSpeed = 100f;
     [Header("Camera Zoom Speed")]
     public float camShiftSpeed = 1f;
-    [Header("Camera Elevation")]
+    [Header("Camera Height")]
     public float centerOffsetY = 0f;
-    [Header("Camera Zoom Out Limit")]
+    [Header("Camera Max Distance")]
     public float maxCamDistance = 50f;
     private Vector3 centerOffset;
 
-    // Start is called before the first frame update
     void Start()
     {
         target = GetComponent<Transform>();
@@ -39,16 +37,14 @@ public class alMouseCam : MonoBehaviour
         centerOffset = new Vector3(0, centerOffsetY, 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector2 mousePos;
         mousePos.x = Input.mousePosition.x;
         mousePos.y = Input.mousePosition.y;
-
         Vector3 pos = target.position + centerOffset;
 
-        //////////////////////////////////////////////////////////rotating cam
+        // ===== Rotating cam =====
         float dist = Vector3.Distance(cam.transform.position, pos);
         float deltaCam;
 
@@ -84,7 +80,7 @@ public class alMouseCam : MonoBehaviour
                         camSpeed * (mousePos.y - prevMousePos.y) * Time.deltaTime);
             }
         }
-        //////////////////////////////////////////////////////////
+
         if (Input.GetKey("e"))
         {
             cam.transform.RotateAround(pos, new Vector3(0, 1, 0), roundSpeed * Time.deltaTime);
@@ -95,23 +91,21 @@ public class alMouseCam : MonoBehaviour
             cam.transform.RotateAround(pos, new Vector3(0, -1, 0), roundSpeed * Time.deltaTime);
         }
 
-        // float dist = Vector3.Distance(cam.transform.position, target.position);
-
-        //if (dist != camDistance || dist != camDistance)
-        //{
-        //    Vector3 offset = new Vector3(0, 0, 0);
-        //    //offset.y += transform.position.y - cam.transform.position.y + camDistance;
-        //    //offset.z += transform.position.z - cam.transform.position.z + camDistance;
-        //    cam.transform.position += offset;
-        //}
-
-        //cam.transform.Translate();
-
-        //offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
-        //offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
-        // offset.y = camDistance; // отдаление камеры
-
-        // cam.transform.position = transform.position + offset; //подтаскивание камеры к нужным координатам
+       /*   ===== Old script =====
+        *   float dist = Vector3.Distance(cam.transform.position, target.position);
+        *   if (dist != camDistance || dist != camDistance)
+        *   {
+        *   Vector3 offset = new Vector3(0, 0, 0);
+        *   offset.y += transform.position.y - cam.transform.position.y + camDistance;
+        *   offset.z += transform.position.z - cam.transform.position.z + camDistance;
+        *   cam.transform.position += offset;
+        *   }
+        *   cam.transform.Translate();
+        *   offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
+        *   offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
+        *   offset.y = camDistance; // отдаление камеры
+        *   cam.transform.position = transform.position + offset; //подтаскивание камеры к нужным координатам
+        */
 
         prevMousePos.x = mousePos.x;
         prevMousePos.y = mousePos.y;
