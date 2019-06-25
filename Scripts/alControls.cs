@@ -26,7 +26,6 @@ public class alControls : MonoBehaviour
         {
             isGrounded = true;
         }
-
     }
 
     void OnCollisionExit(Collision hit)
@@ -35,17 +34,14 @@ public class alControls : MonoBehaviour
         {
             isGrounded = false;
         }
-
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody>();
         rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
-    // Update is called once per frame
     void Update()
     {
         float vertical = Input.GetAxis("Vertical");// принимает значения от -1 до 1 соответственно s w и ↓ ↑
@@ -108,14 +104,13 @@ public class alControls : MonoBehaviour
             rig.AddForce(-brakeVelocity);  // apply opposing brake force
         }
 
-        //Quaternion camRotation = Quaternion.Euler(30, rig.rotation.eulerAngles.y - 90, 0); // определение угла поворота камеры относительно объекта
-
-        //cam.transform.rotation = camRotation; // поворот камеры
-
-        //offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
-        //offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
-        //offset.y = camDistance; // отдаление камеры
-
-        //cam.transform.position = rig.position + offset; //подтаскивание камеры к нужным координатам
+    /*  ===== Old script =====
+     *  Quaternion camRotation = Quaternion.Euler(30, rig.rotation.eulerAngles.y - 90, 0); // определение угла поворота камеры относительно объекта
+     *  cam.transform.rotation = camRotation; // поворот камеры
+     *  offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
+     *  offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
+     *  offset.y = camDistance; // отдаление камеры
+     *  cam.transform.position = rig.position + offset; //подтаскивание камеры к нужным координатам
+     */
     }
 }

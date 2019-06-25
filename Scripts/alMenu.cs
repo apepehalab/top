@@ -40,7 +40,6 @@ public class alMenu : MonoBehaviour
 		Exit.SetActive(false);
 	}
 	
-    // Start is called before the first frame update
     void Start()
     {
 		if(SceneManager.GetActiveScene().buildIndex == 1)
@@ -51,12 +50,11 @@ public class alMenu : MonoBehaviour
 			Load = GameObject.Find ("Load");
 			Exit_main_menu = GameObject.Find ("Exit to the main menu");
 			Exit = GameObject.Find ("Exit");
-		
+
 			CloseMenu();
 		}
     }
 
-    // Update is called once per frame
     void Update()
     {
 		if(SceneManager.GetActiveScene().buildIndex == 1)
