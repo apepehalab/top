@@ -3,7 +3,7 @@ This file contains all the previous versions releases
 ## Tales of Pangaea
 ## Panamario
 - [v0.1 Released on 17.05.2019](https://yadi.sk/d/rHLU_lJT7w6KKQ)
-  - Initial version of our test game, have funny bugs
+  - Initial version of our test game, has funny bugs
 - [v0.2 Released on 20.05.2019](https://yadi.sk/d/9ZlZXGg1zbRCfA)
   - Bug fixes
   - Preventing character falling
