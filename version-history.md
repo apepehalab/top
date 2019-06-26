@@ -20,7 +20,7 @@ This file contains all the previous versions releases
 - [v0.3 Released on 29.05.2019](https://yadi.sk/d/EpHUBDjNr0Vq6g)
   - Bug fixes
   - Added new test location
-  - [v0.2 Released on 20.05.2019](https://yadi.sk/d/9ZlZXGg1zbRCfA)
+- [v0.2 Released on 20.05.2019](https://yadi.sk/d/9ZlZXGg1zbRCfA)
   - Bug fixes
   - Preventing character falling
 - [v0.1 Released on 17.05.2019](https://yadi.sk/d/rHLU_lJT7w6KKQ)
