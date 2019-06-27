@@ -25,6 +25,7 @@ public class alMouseCam : MonoBehaviour
     [Header("Camera Max Distance")]
     public float maxCamDistance = 50f;
     private Vector3 centerOffset;
+    private bool isReleased = false;
 
     void Start()
     {
@@ -63,15 +64,21 @@ public class alMouseCam : MonoBehaviour
         lastPos = pos;
 
         cam.transform.LookAt(pos);
+
         if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
-        { 
+        {
+            isReleased = true;
+            Cursor.lockState = CursorLockMode.Confined;
+
             if (mousePos.x - prevMousePos.x != 0)
             {
+                Cursor.visible = false;
                 cam.transform.RotateAround(pos, new Vector3(0, 1, 0), camSpeed * (mousePos.x - prevMousePos.x) * Time.deltaTime);
             }
 
             if (mousePos.y - prevMousePos.y != 0)
             {
+                Cursor.visible = false;
                 cam.transform.RotateAround(
                     pos, new Vector3(
                         -Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180),
@@ -80,6 +87,15 @@ public class alMouseCam : MonoBehaviour
                         camSpeed * (mousePos.y - prevMousePos.y) * Time.deltaTime);
             }
         }
+
+        else if(isReleased)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            isReleased = false;
+        }
+
+
 
         if (Input.GetKey("e"))
         {
@@ -96,7 +112,7 @@ public class alMouseCam : MonoBehaviour
 
        /*   ===== Old script =====
         *   float dist = Vector3.Distance(cam.transform.position, target.position);
-        *   if (dist != camDistance || dist != camDistance)
+        *   if (dist != camDistance)
         *   {
         *   Vector3 offset = new Vector3(0, 0, 0);
         *   offset.y += transform.position.y - cam.transform.position.y + camDistance;

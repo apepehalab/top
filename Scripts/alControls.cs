@@ -58,14 +58,24 @@ public class alControls : MonoBehaviour
 
         if (horizontal != 0) // проверка горизонтальной оси
         {
+            rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
             vel = speed * horizontal;
             horMove = new Vector3(-vel * (float)Math.Cos(rad + Mathf.PI / 2), 0, vel * (float)Math.Sin(rad + Mathf.PI / 2)) * Time.deltaTime; //вчислеие трёхмерной горизонтальной компоненты вектора скорости
+        }
+        else
+        {
+            rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
 
         if (vertical != 0) // проверка вертикальной оси
         {
+            rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
             vel = speed * vertical;
             verMove += new Vector3(-vel * (float)Math.Cos(rad), 0, vel * (float)Math.Sin(rad)) * Time.deltaTime; //вчислеие трёхмерной вертикальной компоненты вектора скорости
+        }
+        else
+        {
+            rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
 
         movement = horMove + verMove; // сложение трёхмерных компонент скоростей
@@ -79,6 +89,7 @@ public class alControls : MonoBehaviour
         {
             rig.MoveRotation(rig.rotation * angvelL); //повернуть rigidbody против часовой
         }
+
         if (Input.GetKey("e")) // если нажата кнопка e
         {
             rig.MoveRotation(rig.rotation * angvelR); //повернуть rigidbody по часовой
@@ -90,7 +101,7 @@ public class alControls : MonoBehaviour
             rig.MoveRotation(buffer);
         }
 
-        rig.position += movement; // перемещение обекта
+        rig.AddForce(movement, ForceMode.VelocityChange); // перемещение обекта
 
         float testSpeed = Vector3.Magnitude(rig.velocity);  // test current object speed
 
