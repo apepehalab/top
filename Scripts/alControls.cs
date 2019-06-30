@@ -15,6 +15,7 @@ public class alControls : MonoBehaviour
     public Rigidbody rig; //физика объекта
     public float speed = 5f; // скорость
     public float JumpHeight = 2f;
+    public float gravityBoost = 100f;
     
     private Vector3 movement = new Vector3(0, 0, 0); // трёхмерный вектор скорости
     public float maximumSpeed = 15f;
@@ -22,7 +23,7 @@ public class alControls : MonoBehaviour
 
     void OnCollisionEnter(Collision hit)
     {
-        if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Floor")
+        if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Solid Object")
         {
             isGrounded = true;
         }
@@ -30,7 +31,7 @@ public class alControls : MonoBehaviour
 
     void OnCollisionExit(Collision hit)
     {
-        if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Floor")
+        if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Solid Object")
         {
             isGrounded = false;
         }
@@ -49,8 +50,9 @@ public class alControls : MonoBehaviour
 
         float rad = rig.transform.eulerAngles.y * Mathf.PI / 180; //угол поворота rigidbody в радианах
 
-        Vector3 horMove = new Vector3(0, 0, 0); // трёхмерный вектор для горизонтальной компоненты движения
-        Vector3 verMove = new Vector3(0, 0, 0); // трёхмерный вектор для вертикальной компоненты движения
+        Vector3 xMove = new Vector3(0, 0, 0); // трёхмерный вектор для горизонтальной компоненты движения
+        Vector3 zMove = new Vector3(0, 0, 0); // трёхмерный вектор для вертикальной компоненты движения
+        Vector3 yMove = new Vector3(0, 0, 0);
         float vel = 0; // модуль вектора скорости
 
         Quaternion angvelR = Quaternion.Euler(new Vector3(0, 100, 0) * Time.deltaTime); //угловая скорость поворота вправо
@@ -60,7 +62,7 @@ public class alControls : MonoBehaviour
         {
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
             vel = speed * horizontal;
-            horMove = new Vector3(-vel * (float)Math.Cos(rad + Mathf.PI / 2), 0, vel * (float)Math.Sin(rad + Mathf.PI / 2)) * Time.deltaTime; //вчислеие трёхмерной горизонтальной компоненты вектора скорости
+            xMove = new Vector3(-vel * (float)Math.Cos(rad + Mathf.PI / 2), 0, vel * (float)Math.Sin(rad + Mathf.PI / 2)) * Time.deltaTime; //вчислеие трёхмерной горизонтальной компоненты вектора скорости
         }
         else
         {
@@ -71,19 +73,24 @@ public class alControls : MonoBehaviour
         {
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
             vel = speed * vertical;
-            verMove += new Vector3(-vel * (float)Math.Cos(rad), 0, vel * (float)Math.Sin(rad)) * Time.deltaTime; //вчислеие трёхмерной вертикальной компоненты вектора скорости
+            zMove += new Vector3(-vel * (float)Math.Cos(rad), 0, vel * (float)Math.Sin(rad)) * Time.deltaTime; //вчислеие трёхмерной вертикальной компоненты вектора скорости
         }
         else
         {
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
 
-        movement = horMove + verMove; // сложение трёхмерных компонент скоростей
+        if (!isGrounded)
+            yMove += new Vector3(0, -gravityBoost * Time.deltaTime, 0);
+
+        
        
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rig.AddForce(Vector3.up * Mathf.Sqrt(JumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+            yMove += Vector3.up * Mathf.Sqrt(JumpHeight * -2f * Physics.gravity.y * gravityBoost);
         }
+
+        movement = xMove + zMove + yMove; // сложение трёхмерных компонент скоростей
 
         if (Input.GetKey("q")) // если нажата кнопка q
         {
