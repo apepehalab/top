@@ -2,7 +2,7 @@
 This file contains all the previous versions releases
 ## Tales of Pangaea
 ## Panamario
-- [v0.8 Released on 01.07.2019](https://apepehalab.github.io)
+- [v0.8 Released on 02.07.2019](https://yadi.sk/d/Ny502lhvr06QBg)
   - Bug fixes
   - Completely new physics scripting
   - Added camera rendering effects
