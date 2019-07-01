@@ -13,6 +13,7 @@ public class alPlayerAnim : MonoBehaviour
     private float _animState;
     private int _animTransition;
     private float _animShiftSpeed;
+    private string _currentAxis;
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class alPlayerAnim : MonoBehaviour
         _animState = 0.5f;
         anim.SetFloat("offsetX", _animState);
         _animTransition = 0;
+        _currentAxis = "";
     }
 
     void Update()
@@ -30,12 +32,14 @@ public class alPlayerAnim : MonoBehaviour
 
         if (horizontal != 0)
         {
+            _currentAxis = "Horizontal";
             axis = horizontal;
-            _animTransition = 1;
+            _animTransition = 0;
         }
 
         else if (vertical != 0)
         {
+            _currentAxis = "Vertical";
             axis = vertical;
             _animTransition = 0;
         }
@@ -54,7 +58,10 @@ public class alPlayerAnim : MonoBehaviour
         }
         else if (axis < 0)
         {
-            smoothAnim(0, 1.2f, 0.05f);
+            if (_currentAxis == "Horizontal")
+                smoothAnim(1, 1.2f, 0.05f);
+            else
+                smoothAnim(0, 1.2f, 0.05f);
         }
         else
         {
