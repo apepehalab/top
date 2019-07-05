@@ -50,14 +50,14 @@ public class alMouseCam : MonoBehaviour
         float deltaCam;
 
         if(dist > maxCamDistance)
-            deltaCam = Mathf.Cos(cam.transform.eulerAngles.x * Mathf.PI / 180);
+            deltaCam = Mathf.Cos(cam.transform.eulerAngles.x * Mathf.Deg2Rad);
         else
-            deltaCam = Input.mouseScrollDelta.y * camShiftSpeed * Mathf.Cos(cam.transform.eulerAngles.x * Mathf.PI / 180);
+            deltaCam = Input.mouseScrollDelta.y * camShiftSpeed * Mathf.Cos(cam.transform.eulerAngles.x * Mathf.Deg2Rad);
 
         Vector3 offset = new Vector3(
-            pos.x - lastPos.x + Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * deltaCam,
-            pos.y - lastPos.y - Mathf.Tan(cam.transform.eulerAngles.x * Mathf.PI / 180) * deltaCam,
-            pos.z - lastPos.z + Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * deltaCam);
+            pos.x - lastPos.x + Mathf.Sin(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * deltaCam,
+            pos.y - lastPos.y - Mathf.Tan(cam.transform.eulerAngles.x * Mathf.Deg2Rad) * deltaCam,
+            pos.z - lastPos.z + Mathf.Cos(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * deltaCam);
 
         cam.transform.position += offset;
 
@@ -81,9 +81,9 @@ public class alMouseCam : MonoBehaviour
                 Cursor.visible = false;
                 cam.transform.RotateAround(
                     pos, new Vector3(
-                        -Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180),
+                        -Mathf.Cos(cam.transform.eulerAngles.y * Mathf.Deg2Rad),
                         0,
-                        Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180)),
+                        Mathf.Sin(cam.transform.eulerAngles.y * Mathf.Deg2Rad)),
                         camSpeed * (mousePos.y - prevMousePos.y) * Time.deltaTime);
             }
         }
@@ -120,8 +120,8 @@ public class alMouseCam : MonoBehaviour
         *   cam.transform.position += offset;
         *   }
         *   cam.transform.Translate();
-        *   offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
-        *   offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
+        *   offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
+        *   offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
         *   offset.y = camDistance; // отдаление камеры
         *   cam.transform.position = transform.position + offset; //подтаскивание камеры к нужным координатам
         */

@@ -28,7 +28,21 @@ public class alPlayerAnim : MonoBehaviour
     {
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
-        float axis;
+        float axis = 0;
+
+        if (Input.GetKey("e"))
+        {
+            _currentAxis = "qe";
+            axis += 1;
+            _animTransition = 1;
+        }
+
+        if (Input.GetKey("q"))
+        {
+            _currentAxis = "qe";
+            axis -= 1;
+            _animTransition = 1;
+        }
 
         if (horizontal != 0)
         {
@@ -44,11 +58,6 @@ public class alPlayerAnim : MonoBehaviour
             _animTransition = 0;
         }
 
-        else
-        {
-            axis = vertical;
-            _animTransition = 0;
-        }
 
         anim.SetInteger("movement", _animTransition);
 
@@ -67,6 +76,9 @@ public class alPlayerAnim : MonoBehaviour
         {
             smoothAnim(0.5f, 1.2f, 0.05f);
         }
+
+
+        
     }
 
     void smoothAnim(float value, float shiftSpeed, float accuracy)

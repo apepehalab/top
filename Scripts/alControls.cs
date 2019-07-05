@@ -53,7 +53,7 @@ public class alControls : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");// принимает значения от -1 до 1 соответственно s w и ↓ ↑
         float horizontal = Input.GetAxis("Horizontal");// принимает значения от -1 до 1 соответственно a d и ← →
 
-        float rad = rig.transform.eulerAngles.y * Mathf.PI / 180; //угол поворота rigidbody в радианах
+        float rad = rig.transform.eulerAngles.y * Mathf.Deg2Rad; //угол поворота rigidbody в радианах
 
         Vector3 xMove = new Vector3(0, 0, 0); // трёхмерный вектор для горизонтальной компоненты движения
         Vector3 zMove = new Vector3(0, 0, 0); // трёхмерный вектор для вертикальной компоненты движения
@@ -92,11 +92,8 @@ public class alControls : MonoBehaviour
         else
         {
             if(isTurning)
-            {
-                turn = Quaternion.Euler(new Vector3(0, 90 * -horizontalBuffer, 0));
-                rig.MoveRotation(rig.rotation * turn);
-                isTurning = false;    
-            }
+                isTurning = false;   
+ 
             horizontalBuffer = 0;
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             
@@ -104,7 +101,8 @@ public class alControls : MonoBehaviour
 
         if (vertical != 0 && horizontal == 0) // проверка вертикальной оси
         {
-            
+            Quaternion buffer = Quaternion.Euler(new Vector3(0, cam.transform.eulerAngles.y + 90 + (90 * horizontalBuffer), 0));
+            rig.MoveRotation(buffer);
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
             vel = speed * vertical;
             zMove += new Vector3(-vel * (float)Math.Cos(rad), 0, vel * (float)Math.Sin(rad)) * Time.deltaTime; //вчислеие трёхмерной вертикальной компоненты вектора скорости
@@ -158,8 +156,8 @@ public class alControls : MonoBehaviour
     /*  ===== Old script =====
      *  Quaternion camRotation = Quaternion.Euler(30, rig.rotation.eulerAngles.y - 90, 0); // определение угла поворота камеры относительно объекта
      *  cam.transform.rotation = camRotation; // поворот камеры
-     *  offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
-     *  offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
+     *  offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
+     *  offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
      *  offset.y = camDistance; // отдаление камеры
      *  cam.transform.position = rig.position + offset; //подтаскивание камеры к нужным координатам
      */
