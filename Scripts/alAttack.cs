@@ -19,7 +19,6 @@ public class alAttack : MonoBehaviour
     void Start()
     {
         _target = cam.GetComponent<alTarget>();
-        
     }
 
     // Update is called once per frame
