@@ -19,7 +19,10 @@ public class alTarget : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                activeObject = (hit.transform.gameObject);
+                if (hit.transform.gameObject.tag == "Mob")
+                    activeObject = (hit.transform.gameObject);
+                else
+                    activeObject = null;
             }
             else
             {

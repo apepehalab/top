@@ -15,7 +15,7 @@ public class alControls : MonoBehaviour
     public Rigidbody rig; //физика объекта
     public float speed = 5f; // скорость
     public float JumpHeight = 2f;
-    public float gravityBoost = 100f;
+    public float jumpBoost = 100f;
     
     private Vector3 movement = new Vector3(0, 0, 0); // трёхмерный вектор скорости
     private Quaternion turn = Quaternion.Euler(new Vector3(0, 90 , 0));
@@ -118,7 +118,7 @@ public class alControls : MonoBehaviour
        
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            yMove += Vector3.up * Mathf.Sqrt(JumpHeight * -2f * Physics.gravity.y * gravityBoost);
+            yMove += Vector3.up * Mathf.Sqrt(JumpHeight * -2f * Physics.gravity.y) * jumpBoost;
         }
 
         movement = xMove + zMove + yMove; // сложение трёхмерных компонент скоростей

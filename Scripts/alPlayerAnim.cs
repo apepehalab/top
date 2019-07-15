@@ -14,6 +14,28 @@ public class alPlayerAnim : MonoBehaviour
     private int _animTransition;
     private float _animShiftSpeed;
     private string _currentAxis;
+    private bool isGrounded;
+    private bool wasGrounded;
+
+
+    void OnCollisionEnter(Collision hit)
+    {
+        if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Solid Object")
+        {
+            isGrounded = true;
+            anim.SetBool("grounded", true);
+            _animTransition = 0;
+        }
+    }
+
+    void OnCollisionExit(Collision hit)
+    {
+        if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Solid Object")
+        {
+            isGrounded = false;
+            anim.SetBool("grounded", false);
+        }
+    }
 
     void Start()
     {
@@ -22,6 +44,7 @@ public class alPlayerAnim : MonoBehaviour
         anim.SetFloat("offsetX", _animState);
         _animTransition = 0;
         _currentAxis = "";
+        isGrounded = wasGrounded = false;
     }
 
     void Update()
@@ -44,19 +67,39 @@ public class alPlayerAnim : MonoBehaviour
             _animTransition = 1;
         }
 
-        if (horizontal != 0)
+        if (horizontal != 0 && isGrounded)
         {
             _currentAxis = "Horizontal";
             axis = horizontal;
             _animTransition = 0;
         }
 
-        else if (vertical != 0)
+        else if (vertical != 0 && isGrounded)
         {
             _currentAxis = "Vertical";
             axis = vertical;
             _animTransition = 0;
         }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            _currentAxis = "Jump";
+            _animTransition = 2;
+        }
+
+        //if (!isGrounded)
+        //{
+        //    _currentAxis = "Jump";
+        //    axis = 0;
+        //    _animTransition = 2;
+        //}
+
+        //else if(!wasGrounded)
+        //{
+        //    _currentAxis = "Jump";
+        //    axis = 1;
+        //    _animTransition = 2;
+        //}
 
 
         anim.SetInteger("movement", _animTransition);
@@ -78,7 +121,7 @@ public class alPlayerAnim : MonoBehaviour
         }
 
 
-        
+        wasGrounded = isGrounded;
     }
 
     void smoothAnim(float value, float shiftSpeed, float accuracy)
@@ -92,5 +135,10 @@ public class alPlayerAnim : MonoBehaviour
         else
             _animState = value;
         anim.SetFloat("offsetX", _animState);
+    }
+
+    void setAnimState(float state)
+    {
+        anim.SetFloat("offsetX", state);
     }
 }
