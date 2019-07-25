@@ -11,6 +11,8 @@ Apepeha Game Lab. is a group of beginner independent game developers from Saint 
 - Efim Mikhailenko — *Chief programmer*
 - Pavel Metelkin — *Chief modeller*
 - Nikita Ponomarev — *Programmer*
+- Zeratul Belykh — *Programmer*
+- Andrei Ignatovsky — *Modeller*
 ## Our projects:
 - Tales of Pangaea — *Our main project, designed to be an online RPG with an exciting story*
 - Panamario — *Our main testing project, named for one of our developers Panamar*
