@@ -15,11 +15,16 @@ public class alControls : MonoBehaviour
     public Rigidbody rig; //физика объекта
     public float speed = 5f; // скорость
     public float JumpHeight = 2f;
-    public float gravityBoost = 100f;
+    public float jumpBoost = 100f;
     
     private Vector3 movement = new Vector3(0, 0, 0); // трёхмерный вектор скорости
+    private Quaternion turn = Quaternion.Euler(new Vector3(0, 90 , 0));
     public float maximumSpeed = 15f;
+    private float horizontalBuffer = 0;
     private bool isGrounded = false;
+    private bool isTurning = false;
+
+
 
     void OnCollisionEnter(Collision hit)
     {
@@ -48,29 +53,56 @@ public class alControls : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");// принимает значения от -1 до 1 соответственно s w и ↓ ↑
         float horizontal = Input.GetAxis("Horizontal");// принимает значения от -1 до 1 соответственно a d и ← →
 
-        float rad = rig.transform.eulerAngles.y * Mathf.PI / 180; //угол поворота rigidbody в радианах
+        float rad = rig.transform.eulerAngles.y * Mathf.Deg2Rad; //угол поворота rigidbody в радианах
 
         Vector3 xMove = new Vector3(0, 0, 0); // трёхмерный вектор для горизонтальной компоненты движения
         Vector3 zMove = new Vector3(0, 0, 0); // трёхмерный вектор для вертикальной компоненты движения
         Vector3 yMove = new Vector3(0, 0, 0);
+       
         float vel = 0; // модуль вектора скорости
 
         Quaternion angvelR = Quaternion.Euler(new Vector3(0, 100, 0) * Time.deltaTime); //угловая скорость поворота вправо
         Quaternion angvelL = Quaternion.Euler(new Vector3(0, -100, 0) * Time.deltaTime); //угловая скорость поворота влево
+        
 
         if (horizontal != 0) // проверка горизонтальной оси
         {
+            if (!isTurning)
+            {
+                isTurning = true;
+
+                if (horizontal > 0)
+                {
+                    turn = Quaternion.Euler(new Vector3(0, 90, 0));
+                    horizontalBuffer = 1;
+                }
+
+                else
+                {
+                    turn = Quaternion.Euler(new Vector3(0, -90, 0));
+                    horizontalBuffer = -1;
+                }
+                rig.MoveRotation(rig.rotation * turn);
+                
+            }
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
-            vel = speed * horizontal;
-            xMove = new Vector3(-vel * (float)Math.Cos(rad + Mathf.PI / 2), 0, vel * (float)Math.Sin(rad + Mathf.PI / 2)) * Time.deltaTime; //вчислеие трёхмерной горизонтальной компоненты вектора скорости
+            vel = speed;
+            xMove = new Vector3(-vel * (float)Math.Cos(rad), 0, vel * (float)Math.Sin(rad)) * Time.deltaTime; //вчислеие трёхмерной горизонтальной компоненты вектора скорости
         }
         else
         {
+            if(isTurning)
+                isTurning = false;   
+ 
+            horizontalBuffer = 0;
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            
         }
 
-        if (vertical != 0) // проверка вертикальной оси
+        if (vertical != 0 && horizontal == 0) // проверка вертикальной оси
         {
+            Quaternion buffer = Quaternion.Euler(new Vector3(0, cam.transform.eulerAngles.y + 90 + (90 * horizontalBuffer), 0));
+            rig.MoveRotation(buffer);
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
             vel = speed * vertical;
             zMove += new Vector3(-vel * (float)Math.Cos(rad), 0, vel * (float)Math.Sin(rad)) * Time.deltaTime; //вчислеие трёхмерной вертикальной компоненты вектора скорости
@@ -79,15 +111,14 @@ public class alControls : MonoBehaviour
         {
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
-
-        if (!isGrounded)
-            yMove += new Vector3(0, -gravityBoost * Time.deltaTime, 0);
+        //if (!isGrounded)
+        //    yMove += new Vector3(0, -gravityBoost * Time.deltaTime, 0);
 
         
        
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            yMove += Vector3.up * Mathf.Sqrt(JumpHeight * -2f * Physics.gravity.y * gravityBoost);
+            yMove += Vector3.up * Mathf.Sqrt(JumpHeight * -2f * Physics.gravity.y) * jumpBoost;
         }
 
         movement = xMove + zMove + yMove; // сложение трёхмерных компонент скоростей
@@ -104,7 +135,7 @@ public class alControls : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            Quaternion buffer = Quaternion.Euler(new Vector3(0, cam.transform.eulerAngles.y + 90, 0));
+            Quaternion buffer = Quaternion.Euler(new Vector3(0, cam.transform.eulerAngles.y + 90 + (90 * horizontalBuffer), 0));
             rig.MoveRotation(buffer);
         }
 
@@ -119,14 +150,14 @@ public class alControls : MonoBehaviour
             Vector3 normalisedVelocity = rig.velocity.normalized;
             Vector3 brakeVelocity = normalisedVelocity * brakeSpeed;  // make the brake Vector3 value
 
-            rig.AddForce(-brakeVelocity);  // apply opposing brake force
+            rig.AddForce(-brakeVelocity, ForceMode.VelocityChange);  // apply opposing brake force
         }
 
     /*  ===== Old script =====
      *  Quaternion camRotation = Quaternion.Euler(30, rig.rotation.eulerAngles.y - 90, 0); // определение угла поворота камеры относительно объекта
      *  cam.transform.rotation = camRotation; // поворот камеры
-     *  offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
-     *  offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.PI / 180) * -camDistance; //тригонометрия 9 класс школы
+     *  offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
+     *  offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
      *  offset.y = camDistance; // отдаление камеры
      *  cam.transform.position = rig.position + offset; //подтаскивание камеры к нужным координатам
      */
