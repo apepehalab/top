@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class alInventory : MonoBehaviour
 {
-	GameObject Invent;
+	GameObject Invent, Character;
 	
-	int[,] invent_array = new int[8,8];
+	int[,] invent_array = new int[5,5];
 	string obj_str;
 	
-	bool Invent_Status = false, Menu_Status = false;
+	bool Invent_Status = false, Character_Status = false, Menu_Status = false;
 	
 	void Inventory_Print()
 	{
-		for(int i = 0; i <= 7; i++)
+		for(int i = 0; i <= 4; i++)
 		{
-			for(int j = 0; j <= 7; j++)
+			for(int j = 0; j <= 4; j++)
 			{
 				switch(invent_array[j,i])
 				{
@@ -52,31 +52,46 @@ public class alInventory : MonoBehaviour
 			}
 		}
 	}
+	public void OpenInvent()
+	{
+		Invent_Status = true;
+		Invent.SetActive(true);
+	}
+	public void CloseInvent()
+	{
+		Invent_Status = false;
+		Invent.SetActive(false);
+	}
+	public void OpenCharacter()
+	{
+		Character_Status = true;
+		Character.SetActive(true);
+	}
+	public void CloseCharacter()
+	{
+		Character_Status = false;
+		Character.SetActive(false);
+	}
     void Start()
     {
-        Invent = GameObject.Find ("Invent");
-		
+        Invent = GameObject.Find ("Inventory");
+		Character = GameObject.Find ("CharacterMenu");
 		
 		invent_array[0,0] = 5;
 		invent_array[0,1] = 0;
 		invent_array[0,2] = 4;
 		invent_array[0,3] = 1;
 		invent_array[0,4] = 6;
-		invent_array[0,5] = 0;
-		invent_array[0,6] = 0;
-		invent_array[0,7] = 1;
 		
 		invent_array[4,0] = 6;
 		invent_array[4,1] = 3;
 		invent_array[4,2] = 1;
 		invent_array[4,3] = 4;
 		invent_array[4,4] = 0;
-		invent_array[4,5] = 9;
-		invent_array[4,6] = 4;
-		invent_array[4,7] = 7;
 		
 		Inventory_Print();
 		Invent.SetActive(false);
+		Character.SetActive(false);
     }
 	
     void Update()
@@ -85,19 +100,28 @@ public class alInventory : MonoBehaviour
 		{
 			Inventory_Print();
 		}
-        if(Input.GetKeyDown(KeyCode.I))
+		if(Menu_Status == false)
 		{
-			if(Menu_Status == false)
+			if(Input.GetKeyDown(KeyCode.I))
 			{
 				if(Invent_Status == false)
 				{
-					Invent_Status = true;
-					Invent.SetActive(true);
+					OpenInvent();
 				}
 				else if(Invent_Status == true)
 				{
-					Invent_Status = false;
-					Invent.SetActive(false);
+					CloseInvent();
+				}
+			}
+			if(Input.GetKeyDown(KeyCode.O))
+			{
+				if(Character_Status == false)
+				{
+					OpenCharacter();
+				}
+				else if(Character_Status == true)
+				{
+					CloseCharacter();
 				}
 			}
 		}
@@ -107,8 +131,11 @@ public class alInventory : MonoBehaviour
 			else if(Menu_Status == true) Menu_Status = false;
 			if(Invent_Status == true)
 			{
-				Invent_Status = false;
-				Invent.SetActive(false);
+				CloseInvent();
+			}
+			if(Character_Status == true)
+			{
+				CloseCharacter();
 			}
 		}
     }

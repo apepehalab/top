@@ -8,7 +8,7 @@ public class alTargetOverlay : MonoBehaviour
     public Camera cam;
     private string _targetStr = "";
     private alTarget _target;
-    private GameObject _currentTarget;
+    private GameObject _currentTarget, TargetStatus;
     public Text _targetText;
 
 
@@ -16,6 +16,8 @@ public class alTargetOverlay : MonoBehaviour
     {
         _target = cam.GetComponent<alTarget>();
         _targetText.text = _targetStr;
+		TargetStatus = GameObject.Find("TargetStatus");
+		TargetStatus.SetActive(false);
 
     }
 
@@ -27,6 +29,7 @@ public class alTargetOverlay : MonoBehaviour
         {
             _targetStr = _currentTarget.name;
             _targetText.text = _targetStr;
+			TargetStatus.SetActive(true);
         }
         
     }
