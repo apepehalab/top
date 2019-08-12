@@ -10,6 +10,7 @@ using System.Collections.Generic;
 public class alTarget : MonoBehaviour
 {
     public GameObject activeObject;
+   // private alNpcController _controller;
 
     void Update()
     {
@@ -20,7 +21,10 @@ public class alTarget : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 if (hit.transform.gameObject.tag == "Mob")
+                {
                     activeObject = (hit.transform.gameObject);
+                    //_controller = (hit.GetComponent<alNpcController>());
+                }
                 else
                     activeObject = null;
             }

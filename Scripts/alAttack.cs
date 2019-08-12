@@ -5,11 +5,13 @@
 
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class alAttack : MonoBehaviour
 {
     public Camera cam;
     public Rigidbody rig;
+    public float attackDist = 5f;
     private GameObject _currentTarget;
     private alTarget _target;
     private bool _newClick = true;
@@ -28,7 +30,7 @@ public class alAttack : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             _newClick = true;
 
-        if (_currentTarget != null && _currentTarget.tag != "Land" && _newClick == true)
+        if (_currentTarget != null && _newClick == true)
         {
             _newClick = false;
             Vector3 p1 = rig.transform.position;
@@ -36,6 +38,11 @@ public class alAttack : MonoBehaviour
             Quaternion angle = Quaternion.Euler(new Vector3(0, Mathf.Atan2(p2.x - p1.x, p2.z - p1.z) * Mathf.Rad2Deg + 90, 0));
 
             rig.MoveRotation(angle);
+
+            if (Vector2.Distance(p1, p2) <= attackDist)
+            { 
+                
+            }
         }
     }
 }

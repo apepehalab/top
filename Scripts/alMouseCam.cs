@@ -64,36 +64,38 @@ public class alMouseCam : MonoBehaviour
         lastPos = pos;
 
         cam.transform.LookAt(pos);
+		if (alInventory.inventory_click == false)//Панамарь
+		{
+			if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+			{
+				isReleased = true;
+				Cursor.lockState = CursorLockMode.Confined;
 
-        if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
-        {
-            isReleased = true;
-            Cursor.lockState = CursorLockMode.Confined;
+				if (mousePos.x - prevMousePos.x != 0)
+				{
+					Cursor.visible = false;
+					cam.transform.RotateAround(pos, new Vector3(0, 1, 0), camSpeed * (mousePos.x - prevMousePos.x) * Time.deltaTime);
+				}
 
-            if (mousePos.x - prevMousePos.x != 0)
-            {
-                Cursor.visible = false;
-                cam.transform.RotateAround(pos, new Vector3(0, 1, 0), camSpeed * (mousePos.x - prevMousePos.x) * Time.deltaTime);
-            }
+				if (mousePos.y - prevMousePos.y != 0)
+				{
+					Cursor.visible = false;
+					cam.transform.RotateAround(
+						pos, new Vector3(
+							-Mathf.Cos(cam.transform.eulerAngles.y * Mathf.Deg2Rad),
+							0,
+							Mathf.Sin(cam.transform.eulerAngles.y * Mathf.Deg2Rad)),
+							camSpeed * (mousePos.y - prevMousePos.y) * Time.deltaTime);
+				}
+			}
 
-            if (mousePos.y - prevMousePos.y != 0)
-            {
-                Cursor.visible = false;
-                cam.transform.RotateAround(
-                    pos, new Vector3(
-                        -Mathf.Cos(cam.transform.eulerAngles.y * Mathf.Deg2Rad),
-                        0,
-                        Mathf.Sin(cam.transform.eulerAngles.y * Mathf.Deg2Rad)),
-                        camSpeed * (mousePos.y - prevMousePos.y) * Time.deltaTime);
-            }
-        }
-
-        else if(isReleased)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            isReleased = false;
-        }
+			else if(isReleased)
+			{
+				Cursor.visible = true;
+				Cursor.lockState = CursorLockMode.None;
+				isReleased = false;
+			}
+		}
 
 
 

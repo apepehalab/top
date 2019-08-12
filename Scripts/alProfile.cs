@@ -14,7 +14,7 @@ public class alProfile : MonoBehaviour
 		if(SceneManager.GetActiveScene().buildIndex == 1)
 		{
 			profile.text = alPlayerName.PlayerName;
-			character.text = alPlayerName.PlayerName;
+		//	character.text = alPlayerName.PlayerName;
 		}
     }
 	

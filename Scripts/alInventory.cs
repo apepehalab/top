@@ -8,9 +8,14 @@ public class alInventory : MonoBehaviour
 	GameObject Invent, Character;
 	
 	int[,] invent_array = new int[5,5];
-	string obj_str;
+	int[] slot_mouse = new int[] {0,0,0};
+	int count_item = 6;
+	string obj_str, slot_str;
+	Vector3 Cursor;
+	float slot_left, slot_right, slot_up, slot_down, invent_left, invent_right, invent_up, invent_down;
 	
-	bool Invent_Status = false, Character_Status = false, Menu_Status = false;
+	bool Invent_Status = false, Character_Status = false, Menu_Status = false, Mouse_Down = false, slot_click = false;
+	public static bool inventory_click = false;
 	
 	void Inventory_Print()
 	{
@@ -18,36 +23,15 @@ public class alInventory : MonoBehaviour
 		{
 			for(int j = 0; j <= 4; j++)
 			{
-				switch(invent_array[j,i])
+				obj_str = "slot_"+j.ToString()+"_"+i.ToString();
+				GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("blank");
+				for(int item = 1; item <= count_item; item++)
 				{
-					case 1:
+					if(invent_array[j,i] == item)
+					{
 						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("1");
-						break;
-					case 2:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("2");
-						break;
-					case 3:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("3");
-						break;
-					case 4:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("4");
-						break;
-					case 5:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("5");
-						break;
-					case 6:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("6");
-						break;
-					default:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("blank");
-						break;
+						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>(item.ToString());
+					}
 				}
 			}
 		}
@@ -99,6 +83,83 @@ public class alInventory : MonoBehaviour
 		if(Invent_Status == true)
 		{
 			Inventory_Print();
+			if(Input.GetMouseButton(0))
+			{
+				Cursor = Input.mousePosition;
+				if(slot_click == false && Mouse_Down == false)
+				{
+					Mouse_Down = true;
+					invent_left = GameObject.Find("Invent").GetComponent<RectTransform>().position.x - GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;
+					invent_right = GameObject.Find("Invent").GetComponent<RectTransform>().position.x + GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;
+					invent_up = GameObject.Find("Invent").GetComponent<RectTransform>().position.y + GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;
+					invent_down = GameObject.Find("Invent").GetComponent<RectTransform>().position.y - GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;
+				//	Debug.Log(GameObject.Find("Invent").GetComponent<RectTransform>().position.x + " " + Cursor + " " + invent_left + " " + GameObject.Find("Invent").GetComponent<RectTransform>().rect.width + " " + GameObject.Find("Invent").GetComponent<RectTransform>().rect.height);
+					if(Cursor.x > invent_left && Cursor.x < invent_right && Cursor.y < invent_up && Cursor.y > invent_down)
+					{
+						inventory_click = true;
+					}
+					for(int i = 0; i <= 4; i++)
+					{
+						for(int j = 0; j <= 4; j++)
+						{
+							if(slot_click == false)
+							{
+								slot_str = "slot_"+j.ToString()+"_"+i.ToString();
+								slot_left = GameObject.Find(slot_str).GetComponent<RectTransform>().position.x - GameObject.Find(slot_str).GetComponent<RectTransform>().rect.width / 2;
+								slot_right = GameObject.Find(slot_str).GetComponent<RectTransform>().position.x + GameObject.Find(slot_str).GetComponent<RectTransform>().rect.width / 2;
+								slot_up = GameObject.Find(slot_str).GetComponent<RectTransform>().position.y + GameObject.Find(slot_str).GetComponent<RectTransform>().rect.height / 2;
+								slot_down = GameObject.Find(slot_str).GetComponent<RectTransform>().position.y - GameObject.Find(slot_str).GetComponent<RectTransform>().rect.height / 2;
+								if(Cursor.x > slot_left && Cursor.x < slot_right && Cursor.y < slot_up && Cursor.y > slot_down)
+								{
+									slot_click = true;
+									if(invent_array[j,i] > 0 && invent_array[j,i] <= count_item)
+									{
+										slot_mouse[0] = invent_array[j,i];
+										slot_mouse[1] = j;
+										slot_mouse[2] = i;
+									}
+								}
+							}
+						}
+					}
+				}
+			}else if(Mouse_Down == true)
+			{
+				Cursor = Input.mousePosition;
+				if(slot_click == true)
+				{
+					for(int i = 0; i <= 4; i++)
+					{
+						for(int j = 0; j <= 4; j++)
+						{
+							slot_str = "slot_"+j.ToString()+"_"+i.ToString();
+							slot_left = GameObject.Find(slot_str).GetComponent<RectTransform>().position.x - GameObject.Find(slot_str).GetComponent<RectTransform>().rect.width / 2;
+							slot_right = GameObject.Find(slot_str).GetComponent<RectTransform>().position.x + GameObject.Find(slot_str).GetComponent<RectTransform>().rect.width / 2;
+							slot_up = GameObject.Find(slot_str).GetComponent<RectTransform>().position.y + GameObject.Find(slot_str).GetComponent<RectTransform>().rect.height / 2;
+							slot_down = GameObject.Find(slot_str).GetComponent<RectTransform>().position.y - GameObject.Find(slot_str).GetComponent<RectTransform>().rect.height / 2;
+							if(slot_mouse[0] != 0 && Cursor.x > slot_left && Cursor.x < slot_right && Cursor.y < slot_up && Cursor.y > slot_down)
+							{
+								if(invent_array[j,i] > 0 && invent_array[j,i] <= count_item)
+								{
+									invent_array[slot_mouse[1],slot_mouse[2]] = invent_array[j,i];
+								}
+								else
+								{
+									invent_array[slot_mouse[1],slot_mouse[2]] = 0;
+								}
+								invent_array[j,i] = slot_mouse[0];
+							}
+						}
+					}
+					slot_mouse[0] = 0;
+					slot_mouse[1] = 0;
+					slot_mouse[2] = 0;
+					slot_click = false;
+				}
+				inventory_click = false;
+				Mouse_Down = false;
+			}
+			
 		}
 		if(Menu_Status == false)
 		{
