@@ -23,7 +23,7 @@ public class alTarget : MonoBehaviour
                 if (hit.transform.gameObject.tag == "Mob")
                 {
                     activeObject = (hit.transform.gameObject);
-                    //_controller = (hit.GetComponent<alNpcController>());
+                   // activeObject.GetComponent(alNpcController);
                 }
                 else
                     activeObject = null;

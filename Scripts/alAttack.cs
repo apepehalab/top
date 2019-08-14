@@ -11,19 +11,17 @@ public class alAttack : MonoBehaviour
 {
     public Camera cam;
     public Rigidbody rig;
-    public float attackDist = 5f;
+    public float attackDist = 1f;
     private GameObject _currentTarget;
     private alTarget _target;
     private bool _newClick = true;
     //public float currentDamage = Camera.main.GetComponent<alTarget>().activeObject.gameObject.GetComponent<EnemyCombatScript>().Damage;
 
-    // Use this for initialization
     void Start()
     {
         _target = cam.GetComponent<alTarget>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         _currentTarget = _target.getActiveObject();
@@ -39,9 +37,14 @@ public class alAttack : MonoBehaviour
 
             rig.MoveRotation(angle);
 
-            if (Vector2.Distance(p1, p2) <= attackDist)
-            { 
-                
+            if (Vector3.Distance(p1, p2) <= attackDist)
+            {
+                var controller = _currentTarget.GetComponent(typeof(alNpcController)) as alNpcController;
+
+                if(controller.getHP() > 0)
+                {
+                    controller.addHP(-1);
+                }
             }
         }
     }

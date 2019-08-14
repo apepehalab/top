@@ -12,10 +12,10 @@ public class alInventory : MonoBehaviour
 	int count_item = 6;
 	string obj_str, slot_str;
 	Vector3 Cursor;
-	float slot_left, slot_right, slot_up, slot_down, invent_left, invent_right, invent_up, invent_down;
+	float slot_left, slot_right, slot_up, slot_down;
 	
-	bool Invent_Status = false, Character_Status = false, Menu_Status = false, Mouse_Down = false, slot_click = false;
-	public static bool inventory_click = false;
+	bool Character_Status = false, Menu_Status = false, Mouse_Down = false, slot_click = false;
+	public static bool Invent_Status = false;
 	
 	void Inventory_Print()
 	{
@@ -89,15 +89,7 @@ public class alInventory : MonoBehaviour
 				if(slot_click == false && Mouse_Down == false)
 				{
 					Mouse_Down = true;
-					invent_left = GameObject.Find("Invent").GetComponent<RectTransform>().position.x - GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;
-					invent_right = GameObject.Find("Invent").GetComponent<RectTransform>().position.x + GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;
-					invent_up = GameObject.Find("Invent").GetComponent<RectTransform>().position.y + GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;
-					invent_down = GameObject.Find("Invent").GetComponent<RectTransform>().position.y - GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;
-				//	Debug.Log(GameObject.Find("Invent").GetComponent<RectTransform>().position.x + " " + Cursor + " " + invent_left + " " + GameObject.Find("Invent").GetComponent<RectTransform>().rect.width + " " + GameObject.Find("Invent").GetComponent<RectTransform>().rect.height);
-					if(Cursor.x > invent_left && Cursor.x < invent_right && Cursor.y < invent_up && Cursor.y > invent_down)
-					{
-						inventory_click = true;
-					}
+					
 					for(int i = 0; i <= 4; i++)
 					{
 						for(int j = 0; j <= 4; j++)
@@ -156,7 +148,6 @@ public class alInventory : MonoBehaviour
 					slot_mouse[2] = 0;
 					slot_click = false;
 				}
-				inventory_click = false;
 				Mouse_Down = false;
 			}
 			

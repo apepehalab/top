@@ -26,6 +26,10 @@ public class alMouseCam : MonoBehaviour
     public float maxCamDistance = 50f;
     private Vector3 centerOffset;
     private bool isReleased = false;
+	
+	Vector3 Cursor_Position;
+	bool Mouse_Down = false, inventory_click = false; //Панамарь
+	float invent_left, invent_right, invent_up, invent_down; //Панамарь
 
     void Start()
     {
@@ -64,7 +68,34 @@ public class alMouseCam : MonoBehaviour
         lastPos = pos;
 
         cam.transform.LookAt(pos);
-		if (alInventory.inventory_click == false)//Панамарь
+		
+		if (Input.GetMouseButton(0))//Панамарь
+		{
+			if(inventory_click == false && Mouse_Down == false)//Панамарь
+			{
+				Mouse_Down = true;//Панамарь
+				if(alInventory.Invent_Status == true)//Панамарь
+				{
+					Cursor_Position = Input.mousePosition;//Панамарь
+					
+					invent_left = GameObject.Find("Invent").GetComponent<RectTransform>().position.x - GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;//Панамарь
+					invent_right = GameObject.Find("Invent").GetComponent<RectTransform>().position.x + GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;//Панамарь
+					invent_up = GameObject.Find("Invent").GetComponent<RectTransform>().position.y + GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;//Панамарь
+					invent_down = GameObject.Find("Invent").GetComponent<RectTransform>().position.y - GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;//Панамарь
+					
+					if(Cursor_Position.x > invent_left && Cursor_Position.x < invent_right && Cursor_Position.y < invent_up && Cursor_Position.y > invent_down)//Панамарь
+					{
+						inventory_click = true;//Панамарь
+					}
+				}
+			}
+		}
+		else if(Mouse_Down == true)//Панамарь
+		{
+			inventory_click = false;//Панамарь
+			Mouse_Down = false;//Панамарь
+		}
+		if (inventory_click == false)//Панамарь
 		{
 			if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
 			{

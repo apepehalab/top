@@ -23,4 +23,16 @@ public class alNpcController : MonoBehaviour
             _status = "dead";
         }
     }
+
+    public void addHP(float value)
+    {
+        hp += value;
+    }
+
+    public float getHP()
+    {
+        return hp;
+    }
+    
+    
 }
