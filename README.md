@@ -7,16 +7,31 @@ Apepeha Game Lab. is a group of beginner independent game developers from Saint 
 - [Our discord / Наш дискорд](https://discord.gg/FRQS4uX)
 - [Official website / Официальный сайт](https://apepehalab.github.io/)
 ## Currently our working team is:
-#### Game Director
+#### Executive Producer
 - Avicus Delacroix
+#### Lead Programmer
+- Efim Mikhailenko
 #### Programmers
 - Efim Mikhailenko
 - Nikita Ponomarev
+- Zeratul Belykh
+#### Lead Modeller
 #### Modellers
 - Andrey Ignatovsky
 - Pavel Metelkin
+#### Lead Artist
 #### Artists
+- Ekaterina Tikhonova
 - Zeratul Belykh
+#### Sound Director
+- Avicus Delacroix
+#### Music
+- Avicus Delacroix
+#### Voice
+- Avicus Delacroix
+#### Scenario
+- Avicus Delacroix
+- Daria Tishaninova
 ## Our projects:
 - Tales of Pangaea — *Our main project, designed to be an online RPG with an exciting story*
 - Panamario — *Our main testing project, named for one of our developers Panamar*
