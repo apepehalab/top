@@ -2,6 +2,14 @@
 This file contains all the previous versions releases
 ## Tales of Pangaea
 ## Panamario
+- [v0.9 Released on 15.08.2019](https://yadi.sk/d/k75lFJmx3Plexw)
+  - Bug fixes
+  - New physics
+  - New bugs
+  - Added ingame interface (beta)
+  - Added attack system (beta)
+  - Working on inventory
+  - Animation improvement
 - [v0.8 Released on 02.07.2019](https://yadi.sk/d/Ny502lhvr06QBg)
   - Bug fixes
   - Completely new physics scripting
