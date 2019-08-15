@@ -18,7 +18,7 @@ public class alControls : MonoBehaviour
     public float jumpBoost = 100f;
     
     private Vector3 movement = new Vector3(0, 0, 0); // трёхмерный вектор скорости
-    private Quaternion turn = Quaternion.Euler(new Vector3(0, 90 , 0));
+    private Quaternion turn = Quaternion.Euler(new Vector3(0, 90, 0));
     public float maximumSpeed = 15f;
     private float horizontalBuffer = 0;
     private bool isGrounded = false;

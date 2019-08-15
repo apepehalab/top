@@ -34,7 +34,7 @@ public class alTargetOverlay : MonoBehaviour
             _targetStr = _currentTarget.name;
 			targetHp = controller.getHP();
             _targetText.text = _targetStr;
-			hp_text.text = targetHp.ToString();
+			hp_text.text = targetHp.ToString()+" HP";
 			TargetStatusActive = true;
 			TargetStatus.SetActive(TargetStatusActive);
         }
