@@ -12,6 +12,7 @@ public class alAttack : MonoBehaviour
     public Camera cam;
     public Rigidbody rig;
     public float attackDist = 1f;
+    public float attackSpeed = 1.5f;
     private GameObject _currentTarget;
     private alTarget _target;
     private bool _newClick = true;
@@ -47,19 +48,26 @@ public class alAttack : MonoBehaviour
                 rig.MoveRotation(angle);
             }
 
+
             _newClick = false;
+            
 
             if (Vector3.Distance(p1, p2) <= attackDist)
             {
                 _isAttacking = true;
                 var controller = _currentTarget.GetComponent(typeof(alNpcController)) as alNpcController;
 
-                if (controller.getHP() > 0 && _timer > 1.2)
+                if (controller.getHP() > 0)
                 {
 
                     _attackAnimTrigger = true;
-                    controller.addHP(-1);
-                    _timer = 0;
+
+                    if (_timer >= attackSpeed)
+                    {
+                        controller.addHP(-1);
+                        _timer = 0;
+                    }
+
                 }
                 else if (controller.getHP() <= 0)
                 {
@@ -77,6 +85,11 @@ public class alAttack : MonoBehaviour
     public bool isAttacking()
     {
         return _attackAnimTrigger;
+    }
+
+    public float getAttackSpeed()
+    {
+        return attackSpeed;
     }
 
 }

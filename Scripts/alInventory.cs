@@ -152,6 +152,15 @@ public class alInventory : MonoBehaviour
 			}
 			
 		}
+		if (Input.GetMouseButtonDown(0))
+        {
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit))
+			{
+				Debug.Log(hit.transform.gameObject.tag);
+			}
+		}
 		if(Menu_Status == false)
 		{
 			if(Input.GetKeyDown(KeyCode.I))

@@ -128,6 +128,7 @@ public class alPlayerAnim : MonoBehaviour
         if (_attack.isAttacking())
         {
             anim.SetBool("isAttacking", true);
+            anim.SetFloat("speed", Time.deltaTime / _attack.getAttackSpeed());
         }
         else
         {
