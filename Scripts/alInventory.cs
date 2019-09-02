@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class alInventory : MonoBehaviour
 {
-	GameObject Invent, Character;
+	GameObject Invent, Character, loot_obj;
 	
 	int[,] invent_array = new int[5,5];
 	int[] slot_mouse = new int[] {0,0,0};
 	int count_item = 6;
-	string obj_str, slot_str;
+	string obj_str, slot_str, loot_name;
 	Vector3 Cursor;
 	float slot_left, slot_right, slot_up, slot_down;
 	
@@ -156,9 +156,34 @@ public class alInventory : MonoBehaviour
         {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
+			
 			if (Physics.Raycast(ray, out hit))
 			{
-				Debug.Log(hit.transform.gameObject.tag);
+				if(hit.transform.gameObject.tag == "Loot")
+				{
+					loot_name = hit.transform.gameObject.name;
+					loot_obj = GameObject.Find(loot_name);
+					bool empty_slot = false;
+					for(int i = 0; i <= 4; i++)
+					{
+						if(empty_slot == false)
+						{
+							for(int j = 0; j <= 4; j++)
+							{
+								if(empty_slot == false)
+								{
+									if(invent_array[i,j] <= 0 || invent_array[i,j] > count_item)
+									{
+										Destroy(loot_obj);
+										invent_array[i,j] = 1;
+										empty_slot = true;
+									}
+								}
+							}
+						}
+					}
+					empty_slot = false;
+				}
 			}
 		}
 		if(Menu_Status == false)
