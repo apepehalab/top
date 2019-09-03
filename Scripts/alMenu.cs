@@ -15,29 +15,19 @@ using UnityEngine.SceneManagement;
 
 public class alMenu : MonoBehaviour
 {
-	GameObject Menu, Return, Save, Load, Exit_main_menu, Exit;
+	GameObject Menu;
 	bool Menu_Status = false;
 
 	public void OpenMenu()
 	{
 		Menu_Status = true;
-		Menu.SetActive(false);
-		Return.SetActive(true);
-		Save.SetActive(true);
-		Load.SetActive(true);
-		Exit_main_menu.SetActive(true);
-		Exit.SetActive(true);
+		Menu.SetActive(true);
 	}
 
 	public void CloseMenu()
 	{
 		Menu_Status = false;
-		Menu.SetActive(true);
-		Return.SetActive(false);
-		Save.SetActive(false);
-		Load.SetActive(false);
-		Exit_main_menu.SetActive(false);
-		Exit.SetActive(false);
+		Menu.SetActive(false);
 	}
 
 	void Start()
@@ -45,11 +35,6 @@ public class alMenu : MonoBehaviour
 		if(SceneManager.GetActiveScene().buildIndex == 1)
 		{
 			Menu = GameObject.Find ("Menu");
-			Return = GameObject.Find ("Return to the game");
-			Save = GameObject.Find ("Save");
-			Load = GameObject.Find ("Load");
-			Exit_main_menu = GameObject.Find ("Exit to the main menu");
-			Exit = GameObject.Find ("Exit");
 
 			CloseMenu();
 		}

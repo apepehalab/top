@@ -18,13 +18,11 @@ public class alControls : MonoBehaviour
     public float jumpBoost = 100f;
     
     private Vector3 movement = new Vector3(0, 0, 0); // трёхмерный вектор скорости
-    private Quaternion turn = Quaternion.Euler(new Vector3(0, 90 , 0));
+    private Quaternion turn = Quaternion.Euler(new Vector3(0, 90, 0));
     public float maximumSpeed = 15f;
     private float horizontalBuffer = 0;
     private bool isGrounded = false;
     private bool isTurning = false;
-
-
 
     void OnCollisionEnter(Collision hit)
     {
@@ -64,7 +62,6 @@ public class alControls : MonoBehaviour
         Quaternion angvelR = Quaternion.Euler(new Vector3(0, 100, 0) * Time.deltaTime); //угловая скорость поворота вправо
         Quaternion angvelL = Quaternion.Euler(new Vector3(0, -100, 0) * Time.deltaTime); //угловая скорость поворота влево
         
-
         if (horizontal != 0) // проверка горизонтальной оси
         {
             if (!isTurning)
@@ -76,7 +73,6 @@ public class alControls : MonoBehaviour
                     turn = Quaternion.Euler(new Vector3(0, 90, 0));
                     horizontalBuffer = 1;
                 }
-
                 else
                 {
                     turn = Quaternion.Euler(new Vector3(0, -90, 0));
@@ -96,7 +92,6 @@ public class alControls : MonoBehaviour
  
             horizontalBuffer = 0;
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-            
         }
 
         if (vertical != 0 && horizontal == 0) // проверка вертикальной оси
@@ -111,11 +106,7 @@ public class alControls : MonoBehaviour
         {
             rig.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
-        //if (!isGrounded)
-        //    yMove += new Vector3(0, -gravityBoost * Time.deltaTime, 0);
 
-        
-       
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             yMove += Vector3.up * Mathf.Sqrt(JumpHeight * -2f * Physics.gravity.y) * jumpBoost;
@@ -152,14 +143,5 @@ public class alControls : MonoBehaviour
 
             rig.AddForce(-brakeVelocity, ForceMode.VelocityChange);  // apply opposing brake force
         }
-
-    /*  ===== Old script =====
-     *  Quaternion camRotation = Quaternion.Euler(30, rig.rotation.eulerAngles.y - 90, 0); // определение угла поворота камеры относительно объекта
-     *  cam.transform.rotation = camRotation; // поворот камеры
-     *  offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
-     *  offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
-     *  offset.y = camDistance; // отдаление камеры
-     *  cam.transform.position = rig.position + offset; //подтаскивание камеры к нужным координатам
-     */
     }
 }

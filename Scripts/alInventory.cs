@@ -1,82 +1,87 @@
-﻿using System.Collections;
+﻿/*  2019 Apepeha Lab.
+ *  Inventory script
+ *  by Nikita Ponomarev
+ */
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class alInventory : MonoBehaviour
 {
-	GameObject Invent;
+	GameObject Invent, Character, loot_obj;
 	
-	int[,] invent_array = new int[8,8];
-	string obj_str;
+	int[,] invent_array = new int[5,5];
+	int[] slot_mouse = new int[] {0,0,0};
+	int count_item = 6;
+	string obj_str, slot_str, loot_name;
+	Vector3 Cursor;
+	float slot_left, slot_right, slot_up, slot_down, invent_left, invent_right, invent_up, invent_down;
 	
-	bool Invent_Status = false, Menu_Status = false;
+	bool Character_Status = false, Menu_Status = false, Mouse_Down = false, slot_click = false, inventory_click = false;
+	public static bool Invent_Status = false;
 	
 	void Inventory_Print()
 	{
-		for(int i = 0; i <= 7; i++)
+		for(int i = 0; i <= 4; i++)
 		{
-			for(int j = 0; j <= 7; j++)
+			for(int j = 0; j <= 4; j++)
 			{
-				switch(invent_array[j,i])
+				obj_str = "slot_"+j.ToString()+"_"+i.ToString();
+				GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("blank");
+				for(int item = 1; item <= count_item; item++)
 				{
-					case 1:
+					if(invent_array[j,i] == item)
+					{
 						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("1");
-						break;
-					case 2:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("2");
-						break;
-					case 3:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("3");
-						break;
-					case 4:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("4");
-						break;
-					case 5:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("5");
-						break;
-					case 6:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("6");
-						break;
-					default:
-						obj_str = "slot_"+j.ToString()+"_"+i.ToString();
-						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>("blank");
-						break;
+						GameObject.Find(obj_str).GetComponent<Image>().sprite = Resources.Load<Sprite>(item.ToString());
+					}
 				}
 			}
 		}
 	}
+	public void OpenInvent()
+	{
+		Invent_Status = true;
+		Invent.SetActive(true);
+	}
+	public void CloseInvent()
+	{
+		Invent_Status = false;
+		Invent.SetActive(false);
+	}
+	public void OpenCharacter()
+	{
+		Character_Status = true;
+		Character.SetActive(true);
+	}
+	public void CloseCharacter()
+	{
+		Character_Status = false;
+		Character.SetActive(false);
+	}
     void Start()
     {
-        Invent = GameObject.Find ("Invent");
-		
+        Invent = GameObject.Find ("Inventory");
+		Character = GameObject.Find ("CharacterMenu");
 		
 		invent_array[0,0] = 5;
 		invent_array[0,1] = 0;
 		invent_array[0,2] = 4;
 		invent_array[0,3] = 1;
 		invent_array[0,4] = 6;
-		invent_array[0,5] = 0;
-		invent_array[0,6] = 0;
-		invent_array[0,7] = 1;
 		
 		invent_array[4,0] = 6;
 		invent_array[4,1] = 3;
 		invent_array[4,2] = 1;
 		invent_array[4,3] = 4;
 		invent_array[4,4] = 0;
-		invent_array[4,5] = 9;
-		invent_array[4,6] = 4;
-		invent_array[4,7] = 7;
 		
 		Inventory_Print();
 		Invent.SetActive(false);
+		Character.SetActive(false);
     }
 	
     void Update()
@@ -84,20 +89,142 @@ public class alInventory : MonoBehaviour
 		if(Invent_Status == true)
 		{
 			Inventory_Print();
+			Cursor = Input.mousePosition;
+					
+			invent_left = GameObject.Find("Invent").GetComponent<RectTransform>().position.x - GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;
+			invent_right = GameObject.Find("Invent").GetComponent<RectTransform>().position.x + GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;
+			invent_up = GameObject.Find("Invent").GetComponent<RectTransform>().position.y + GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;
+			invent_down = GameObject.Find("Invent").GetComponent<RectTransform>().position.y - GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;
+					
+			if(Cursor.x > invent_left && Cursor.x < invent_right && Cursor.y < invent_up && Cursor.y > invent_down)
+				inventory_click = true;
+			else
+				inventory_click = false;
+			if(Input.GetMouseButton(0))
+			{
+				Cursor = Input.mousePosition;
+				if(slot_click == false && Mouse_Down == false)
+				{
+					Mouse_Down = true;
+					
+					for(int i = 0; i <= 4; i++)
+					{
+						for(int j = 0; j <= 4; j++)
+						{
+							if(slot_click == false)
+							{
+								slot_str = "slot_"+j.ToString()+"_"+i.ToString();
+								slot_left = GameObject.Find(slot_str).GetComponent<RectTransform>().position.x - GameObject.Find(slot_str).GetComponent<RectTransform>().rect.width / 2;
+								slot_right = GameObject.Find(slot_str).GetComponent<RectTransform>().position.x + GameObject.Find(slot_str).GetComponent<RectTransform>().rect.width / 2;
+								slot_up = GameObject.Find(slot_str).GetComponent<RectTransform>().position.y + GameObject.Find(slot_str).GetComponent<RectTransform>().rect.height / 2;
+								slot_down = GameObject.Find(slot_str).GetComponent<RectTransform>().position.y - GameObject.Find(slot_str).GetComponent<RectTransform>().rect.height / 2;
+								if(Cursor.x > slot_left && Cursor.x < slot_right && Cursor.y < slot_up && Cursor.y > slot_down)
+								{
+									slot_click = true;
+									if(invent_array[j,i] > 0 && invent_array[j,i] <= count_item)
+									{
+										slot_mouse[0] = invent_array[j,i];
+										slot_mouse[1] = j;
+										slot_mouse[2] = i;
+									}
+								}
+							}
+						}
+					}
+				}
+			}else if(Mouse_Down == true)
+			{
+				Cursor = Input.mousePosition;
+				if(slot_click == true)
+				{
+					for(int i = 0; i <= 4; i++)
+					{
+						for(int j = 0; j <= 4; j++)
+						{
+							slot_str = "slot_"+j.ToString()+"_"+i.ToString();
+							slot_left = GameObject.Find(slot_str).GetComponent<RectTransform>().position.x - GameObject.Find(slot_str).GetComponent<RectTransform>().rect.width / 2;
+							slot_right = GameObject.Find(slot_str).GetComponent<RectTransform>().position.x + GameObject.Find(slot_str).GetComponent<RectTransform>().rect.width / 2;
+							slot_up = GameObject.Find(slot_str).GetComponent<RectTransform>().position.y + GameObject.Find(slot_str).GetComponent<RectTransform>().rect.height / 2;
+							slot_down = GameObject.Find(slot_str).GetComponent<RectTransform>().position.y - GameObject.Find(slot_str).GetComponent<RectTransform>().rect.height / 2;
+							if(slot_mouse[0] != 0 && Cursor.x > slot_left && Cursor.x < slot_right && Cursor.y < slot_up && Cursor.y > slot_down)
+							{
+								if(invent_array[j,i] > 0 && invent_array[j,i] <= count_item)
+								{
+									invent_array[slot_mouse[1],slot_mouse[2]] = invent_array[j,i];
+								}
+								else
+								{
+									invent_array[slot_mouse[1],slot_mouse[2]] = 0;
+								}
+								invent_array[j,i] = slot_mouse[0];
+							}
+						}
+					}
+					slot_mouse[0] = 0;
+					slot_mouse[1] = 0;
+					slot_mouse[2] = 0;
+					slot_click = false;
+				}
+				Mouse_Down = false;
+			}
 		}
-        if(Input.GetKeyDown(KeyCode.I))
+		if (Input.GetMouseButtonDown(0))
+        {
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			
+			if (Physics.Raycast(ray, out hit) && inventory_click == false)
+			{
+				if(hit.transform.gameObject.tag == "Loot")
+				{
+					loot_name = hit.transform.gameObject.name;
+					loot_obj = GameObject.Find(loot_name);
+					ArrayList loot_name_parse = alFunction.parsing_string(loot_name, '_');
+					bool empty_slot = false;
+					for(int i = 0; i <= 4; i++)
+					{
+						if(empty_slot == false)
+						{
+							for(int j = 0; j <= 4; j++)
+							{
+								if(empty_slot == false)
+								{
+									if(invent_array[i,j] <= 0 || invent_array[i,j] > count_item)
+									{
+										Destroy(loot_obj);
+										invent_array[i,j] = Convert.ToInt32(loot_name_parse[1].ToString());
+										empty_slot = true;
+									}
+								}
+							}
+						}
+					}
+					empty_slot = false;
+				}
+			}
+		}
+		if(Menu_Status == false)
 		{
-			if(Menu_Status == false)
+			if(Input.GetKeyDown(KeyCode.I))
 			{
 				if(Invent_Status == false)
 				{
-					Invent_Status = true;
-					Invent.SetActive(true);
+					OpenInvent();
 				}
 				else if(Invent_Status == true)
 				{
-					Invent_Status = false;
-					Invent.SetActive(false);
+					CloseInvent();
+				}
+			}
+			if(Input.GetKeyDown(KeyCode.O))
+			{
+				if(Character_Status == false)
+				{
+					OpenCharacter();
+				}
+				else if(Character_Status == true)
+				{
+					CloseCharacter();
 				}
 			}
 		}
@@ -107,8 +234,11 @@ public class alInventory : MonoBehaviour
 			else if(Menu_Status == true) Menu_Status = false;
 			if(Invent_Status == true)
 			{
-				Invent_Status = false;
-				Invent.SetActive(false);
+				CloseInvent();
+			}
+			if(Character_Status == true)
+			{
+				CloseCharacter();
 			}
 		}
     }

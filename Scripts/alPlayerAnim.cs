@@ -14,15 +14,15 @@ public class alPlayerAnim : MonoBehaviour
     private int _animTransition;
     private float _animShiftSpeed;
     private string _currentAxis;
-    private bool isGrounded;
-    private bool wasGrounded;
-
+    private bool _isGrounded;
+    private bool _wasGrounded;
+    private alAttack _attack;
 
     void OnCollisionEnter(Collision hit)
     {
         if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Solid Object")
         {
-            isGrounded = true;
+            _isGrounded = true;
             anim.SetBool("grounded", true);
             _animTransition = 0;
         }
@@ -32,7 +32,7 @@ public class alPlayerAnim : MonoBehaviour
     {
         if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Solid Object")
         {
-            isGrounded = false;
+            _isGrounded = false;
             anim.SetBool("grounded", false);
         }
     }
@@ -40,11 +40,12 @@ public class alPlayerAnim : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        _attack = GetComponent<alAttack>();
         _animState = 0.5f;
         anim.SetFloat("offsetX", _animState);
         _animTransition = 0;
         _currentAxis = "";
-        isGrounded = wasGrounded = false;
+        _isGrounded = _wasGrounded = false;
     }
 
     void Update()
@@ -67,14 +68,14 @@ public class alPlayerAnim : MonoBehaviour
             _animTransition = 1;
         }
 
-        if (horizontal != 0 && isGrounded)
+        if (horizontal != 0 && _isGrounded)
         {
             _currentAxis = "Horizontal";
             axis = horizontal;
             _animTransition = 0;
         }
 
-        else if (vertical != 0 && isGrounded)
+        else if (vertical != 0 && _isGrounded)
         {
             _currentAxis = "Vertical";
             axis = vertical;
@@ -86,21 +87,6 @@ public class alPlayerAnim : MonoBehaviour
             _currentAxis = "Jump";
             _animTransition = 2;
         }
-
-        //if (!isGrounded)
-        //{
-        //    _currentAxis = "Jump";
-        //    axis = 0;
-        //    _animTransition = 2;
-        //}
-
-        //else if(!wasGrounded)
-        //{
-        //    _currentAxis = "Jump";
-        //    axis = 1;
-        //    _animTransition = 2;
-        //}
-
 
         anim.SetInteger("movement", _animTransition);
 
@@ -120,8 +106,17 @@ public class alPlayerAnim : MonoBehaviour
             smoothAnim(0.5f, 1.2f, 0.05f);
         }
 
+        _wasGrounded = _isGrounded;
 
-        wasGrounded = isGrounded;
+        if (_attack.isAttacking())
+        {
+            anim.SetBool("isAttacking", true);
+            anim.SetFloat("speed", Time.deltaTime / _attack.getAttackSpeed());
+        }
+        else
+        {
+            anim.SetBool("isAttacking", false);
+        }
     }
 
     void smoothAnim(float value, float shiftSpeed, float accuracy)
