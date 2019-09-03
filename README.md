@@ -16,6 +16,7 @@ Apepeha Game Lab. is a group of beginner independent game developers from Saint 
 - Nikita Ponomarev
 - Zeratul Belykh
 #### Lead Modeller
+- Andrey Ignatovsky
 #### Modellers
 - Andrey Ignatovsky
 - Pavel Metelkin
