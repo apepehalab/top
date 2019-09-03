@@ -1,5 +1,5 @@
-# Apepeha Game Lab.
-Apepeha Game Lab. is a group of beginner independent game developers from Saint Petersburg, Russia.
+# Tales of Pangaea
+Tales of Pangaea is an online role play game being made by a group of Russian indie game developers Apepeha Lab.
 ## Links / Ссылки:
 - [Current tasks / Текущие задачи](https://github.com/orgs/apepehalab/projects/1)
 - [Bugtracker / Заведение багов](https://github.com/apepehalab/top/issues)
@@ -20,7 +20,6 @@ Apepeha Game Lab. is a group of beginner independent game developers from Saint 
 #### Modellers
 - Andrey Ignatovsky
 - Pavel Metelkin
-#### Lead Artist
 #### Artists
 - Ekaterina Tikhonova
 - Zeratul Belykh
@@ -33,6 +32,3 @@ Apepeha Game Lab. is a group of beginner independent game developers from Saint 
 #### Scenario
 - Avicus Delacroix
 - Daria Tishaninova
-## Our projects:
-- Tales of Pangaea — *Our main project, designed to be an online RPG with an exciting story*
-- Panamario — *Our main testing project, named for one of our developers Panamar*
