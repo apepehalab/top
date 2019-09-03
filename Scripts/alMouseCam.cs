@@ -128,8 +128,6 @@ public class alMouseCam : MonoBehaviour
 			}
 		}
 
-
-
         if (Input.GetKey("e"))
         {
             cam.transform.RotateAround(pos, new Vector3(0, 1, 0), roundSpeed * Time.deltaTime);
@@ -142,21 +140,5 @@ public class alMouseCam : MonoBehaviour
 
         prevMousePos.x = mousePos.x;
         prevMousePos.y = mousePos.y;
-
-       /*   ===== Old script =====
-        *   float dist = Vector3.Distance(cam.transform.position, target.position);
-        *   if (dist != camDistance)
-        *   {
-        *   Vector3 offset = new Vector3(0, 0, 0);
-        *   offset.y += transform.position.y - cam.transform.position.y + camDistance;
-        *   offset.z += transform.position.z - cam.transform.position.z + camDistance;
-        *   cam.transform.position += offset;
-        *   }
-        *   cam.transform.Translate();
-        *   offset.x = Mathf.Sin(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
-        *   offset.z = Mathf.Cos(cam.transform.eulerAngles.y * Mathf.Deg2Rad) * -camDistance; //тригонометрия 9 класс школы
-        *   offset.y = camDistance; // отдаление камеры
-        *   cam.transform.position = transform.position + offset; //подтаскивание камеры к нужным координатам
-        */
     }
 }

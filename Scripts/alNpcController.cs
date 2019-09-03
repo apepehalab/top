@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿/*  2019 Apepeha Lab.
+ *  Mob hit points script
+ *  by Efim Mikhailenko
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class alNpcController : MonoBehaviour
 {
-
     public float hp = 1f;
     public Animator anim;
     private string _status;
-
 
     void Start()
     {
@@ -33,6 +36,4 @@ public class alNpcController : MonoBehaviour
     {
         return hp;
     }
-    
-    
 }

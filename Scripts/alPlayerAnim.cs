@@ -18,7 +18,6 @@ public class alPlayerAnim : MonoBehaviour
     private bool _wasGrounded;
     private alAttack _attack;
 
-
     void OnCollisionEnter(Collision hit)
     {
         if (hit.gameObject.tag == "Land" || hit.gameObject.tag == "Solid Object")
@@ -89,21 +88,6 @@ public class alPlayerAnim : MonoBehaviour
             _animTransition = 2;
         }
 
-        //if (!_isGrounded)
-        //{
-        //    _currentAxis = "Jump";
-        //    axis = 0;
-        //    _animTransition = 2;
-        //}
-
-        //else if(!_wasGrounded)
-        //{
-        //    _currentAxis = "Jump";
-        //    axis = 1;
-        //    _animTransition = 2;
-        //}
-
-
         anim.SetInteger("movement", _animTransition);
 
         if (axis > 0)
@@ -122,7 +106,6 @@ public class alPlayerAnim : MonoBehaviour
             smoothAnim(0.5f, 1.2f, 0.05f);
         }
 
-
         _wasGrounded = _isGrounded;
 
         if (_attack.isAttacking())
@@ -134,7 +117,6 @@ public class alPlayerAnim : MonoBehaviour
         {
             anim.SetBool("isAttacking", false);
         }
-
     }
 
     void smoothAnim(float value, float shiftSpeed, float accuracy)

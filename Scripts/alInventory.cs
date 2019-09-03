@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*  2019 Apepeha Lab.
+ *  Inventory script
+ *  by Nikita Ponomarev
+ */
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,9 +18,9 @@ public class alInventory : MonoBehaviour
 	int count_item = 6;
 	string obj_str, slot_str, loot_name;
 	Vector3 Cursor;
-	float slot_left, slot_right, slot_up, slot_down;
+	float slot_left, slot_right, slot_up, slot_down, invent_left, invent_right, invent_up, invent_down;
 	
-	bool Character_Status = false, Menu_Status = false, Mouse_Down = false, slot_click = false;
+	bool Character_Status = false, Menu_Status = false, Mouse_Down = false, slot_click = false, inventory_click = false;
 	public static bool Invent_Status = false;
 	
 	void Inventory_Print()
@@ -83,6 +89,17 @@ public class alInventory : MonoBehaviour
 		if(Invent_Status == true)
 		{
 			Inventory_Print();
+			Cursor = Input.mousePosition;
+					
+			invent_left = GameObject.Find("Invent").GetComponent<RectTransform>().position.x - GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;
+			invent_right = GameObject.Find("Invent").GetComponent<RectTransform>().position.x + GameObject.Find("Invent").GetComponent<RectTransform>().rect.width;
+			invent_up = GameObject.Find("Invent").GetComponent<RectTransform>().position.y + GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;
+			invent_down = GameObject.Find("Invent").GetComponent<RectTransform>().position.y - GameObject.Find("Invent").GetComponent<RectTransform>().rect.height;
+					
+			if(Cursor.x > invent_left && Cursor.x < invent_right && Cursor.y < invent_up && Cursor.y > invent_down)
+				inventory_click = true;
+			else
+				inventory_click = false;
 			if(Input.GetMouseButton(0))
 			{
 				Cursor = Input.mousePosition;
@@ -150,19 +167,19 @@ public class alInventory : MonoBehaviour
 				}
 				Mouse_Down = false;
 			}
-			
 		}
 		if (Input.GetMouseButtonDown(0))
         {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			
-			if (Physics.Raycast(ray, out hit))
+			if (Physics.Raycast(ray, out hit) && inventory_click == false)
 			{
 				if(hit.transform.gameObject.tag == "Loot")
 				{
 					loot_name = hit.transform.gameObject.name;
 					loot_obj = GameObject.Find(loot_name);
+					ArrayList loot_name_parse = alFunction.parsing_string(loot_name, '_');
 					bool empty_slot = false;
 					for(int i = 0; i <= 4; i++)
 					{
@@ -175,7 +192,7 @@ public class alInventory : MonoBehaviour
 									if(invent_array[i,j] <= 0 || invent_array[i,j] > count_item)
 									{
 										Destroy(loot_obj);
-										invent_array[i,j] = 1;
+										invent_array[i,j] = Convert.ToInt32(loot_name_parse[1].ToString());
 										empty_slot = true;
 									}
 								}

@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*  2019 Apepeha Lab.
+ *  Target Overlay script
+ *  by Nikita Ponomarev
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,19 +18,16 @@ public class alTargetOverlay : MonoBehaviour
     private GameObject _currentTarget, TargetStatus;
     public Text _targetText, hp_text;
 
-
     void Start()
     {
         _target = cam.GetComponent<alTarget>();
         _targetText.text = _targetStr;
 		TargetStatus = GameObject.Find("TargetStatus");
 		TargetStatus.SetActive(TargetStatusActive);
-
     }
 
     void Update()
     {
-
         _currentTarget = _target.getActiveObject();
 		
         if(_currentTarget != null)
@@ -38,6 +40,5 @@ public class alTargetOverlay : MonoBehaviour
 			TargetStatusActive = true;
 			TargetStatus.SetActive(TargetStatusActive);
         }
-        
     }
 }

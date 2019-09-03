@@ -44,5 +44,4 @@ public class alTarget : MonoBehaviour
     {
         return activeObject;
     }
-
 }

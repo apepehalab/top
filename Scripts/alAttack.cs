@@ -48,10 +48,8 @@ public class alAttack : MonoBehaviour
                 rig.MoveRotation(angle);
             }
 
-
             _newClick = false;
             
-
             if (Vector3.Distance(p1, p2) <= attackDist)
             {
                 _isAttacking = true;
@@ -91,5 +89,4 @@ public class alAttack : MonoBehaviour
     {
         return attackSpeed;
     }
-
 }
