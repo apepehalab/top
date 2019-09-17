@@ -21,13 +21,9 @@ Tales of Pangaea is an online role play game being made by a group of Russian in
 - Andrey Ignatovsky
 - Pavel Metelkin
 #### Artists
+- Daria Tishaninova
 - Ekaterina Tikhonova
-- Zeratul Belykh
 #### Sound Director
-- Avicus Delacroix
-#### Music
-- Avicus Delacroix
-#### Voice
 - Avicus Delacroix
 #### Scenario
 - Avicus Delacroix
