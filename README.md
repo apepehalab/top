@@ -15,8 +15,6 @@ Tales of Pangaea is an online role play game being made by a group of Russian in
 - Efim Mikhailenko
 - Nikita Ponomarev
 - Zeratul Belykh
-#### Lead Modeller
-- Andrey Ignatovsky
 #### Modellers
 - Andrey Ignatovsky
 - Pavel Metelkin
