@@ -1,6 +1,7 @@
 # Version History
 This file contains all the previous versions releases
 ## Tales of Pangaea
+  Not released yet.
 ## Panamario
 - [v0.9 Released on 15.08.2019](https://yadi.sk/d/k75lFJmx3Plexw)
   - Bug fixes
